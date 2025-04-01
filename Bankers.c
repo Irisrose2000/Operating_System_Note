@@ -105,16 +105,15 @@ void cal() {
 
 
     // Checking if all processes finished
-    if(c1 == n) {
-        printf("\nThe system is in a safe state.\nSafe Sequence: ");
-        for(i = 0; i < n; i++) {
-            printf("P%d ", safe[i]);
-            if(i != n - 1) printf("-> ");
-        }
+      if(c1 == n) {
+        printf("\n The system is in a safe state");
     } else {
-        printf("\nThe system is in an unsafe state (deadlock detected).");
+        printf("\n Processes are in deadlock");
+        printf("\n System is in unsafe state");
     }
 }
+
+
 
 int main() {
     printf("-----Banker's Algorithm-----\n");
