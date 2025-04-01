@@ -80,33 +80,29 @@ void cal() {
     }
 
     // Start Safe Sequence Calculation
-    while(flag) {
+     while(flag) {
         flag = 0;
-        
         for(i = 0; i < n; i++) {
-            int canExecute = 1;
-            
-            if(finish[i] == 0) { // Process is unfinished
-                for(j = 0; j < r; j++) {
-                    if(need[i][j] > avail[j]) {
-                        canExecute = 0; // Not enough resources
-                        break;
-                    }
+            int c = 0;
+            for(j = 0; j < r; j++) {
+                if((finish[i] == 0) && (need[i][j] <= avail[j])) {
+                    c++;
                 }
-                
-                if(canExecute) {
-                    // Process can execute, release resources
+                if(c == r) {
                     for(k = 0; k < r; k++) {
-                        avail[k] += alloc[i][k]; // Corrected index
+                        avail[k] += alloc[i][j];
                     }
-                    
-                    finish[i] = 1; // Mark process as finished
-                    safe[c1++] = i; // Add to safe sequence
+                    finish[i] = 1;
                     flag = 1;
+                    printf("P%d->", i);
+                    if(finish[i] == 1) {
+                        i = n;
+                    }
                 }
             }
         }
     }
+
 
     // Checking if all processes finished
     if(c1 == n) {
