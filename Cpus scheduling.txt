@@ -1,0 +1,101 @@
+SJF stands for **Shortest Job First**, which is a CPU scheduling algorithm used in operating systems. In SJF, the process with the shortest burst time (execution time) is selected for execution first.  
+
+### Types of SJF Scheduling:
+1. **Non-Preemptive SJF**:  
+   - Once a process starts executing, it cannot be interrupted until it finishes.
+   - Best suited for batch processing.
+   - It may cause starvation for longer processes.
+
+2. **Preemptive SJF (Shortest Remaining Time First - SRTF)**:  
+   - If a new process arrives with a shorter burst time than the currently running process, it preempts (interrupts) the running process.
+   - More efficient but requires continuous checking of the queue.
+
+### Advantages of SJF:
+- **Minimizes average waiting time**, making it one of the most optimal scheduling algorithms.
+- **Efficient for short processes**.
+
+### Disadvantages of SJF:
+- **Difficult to implement** since predicting process execution time is hard.
+- **Starvation problem**: Long processes may never get CPU time if shorter jobs keep arriving.
+
+
+### **Priority Scheduling**  
+Priority Scheduling is a **CPU scheduling algorithm** where each process is assigned a **priority value**, and the CPU is allocated to the process with the **highest priority** first. If two processes have the same priority, they are scheduled based on their arrival time (First Come, First Serve - FCFS).
+
+### **Types of Priority Scheduling:**
+1. **Non-Preemptive Priority Scheduling**  
+   - The CPU is assigned to the highest-priority process.
+   - Once a process starts execution, it **cannot be interrupted** until it completes.
+
+2. **Preemptive Priority Scheduling**  
+   - If a new process with a **higher priority** arrives, it **preempts** (interrupts) the currently running process.
+   - The interrupted process is moved back to the ready queue.
+
+### **Advantages of Priority Scheduling:**
+✅ **Efficient** for critical tasks since high-priority processes get executed first.  
+✅ Suitable for **real-time systems** where certain tasks (e.g., emergency signals) need immediate execution.
+
+### **Disadvantages of Priority Scheduling:**
+❌ **Starvation Problem**: Lower-priority processes may never get CPU time if high-priority processes keep arriving.  
+❌ **Solution: Aging** (Gradually increasing the priority of older processes to prevent starvation).  
+
+
+### **Round Robin (RR) Scheduling Algorithm**  
+**Round Robin (RR)** is a **preemptive** CPU scheduling algorithm designed for **time-sharing systems**. It assigns a **fixed time quantum** (or time slice) to each process in a cyclic order.
+
+### **How Round Robin Works:**
+1. All processes are placed in a **ready queue**.
+2. The CPU allocates a **fixed time quantum** (e.g., 5ms) to the first process in the queue.
+3. If the process **finishes within the time quantum**, it exits the queue.
+4. If the process **does not finish**, it is moved to the **end of the queue**.
+5. The next process in the queue is scheduled, and the cycle repeats.
+
+### **Advantages of Round Robin:**
+✅ **Fairness** – Every process gets an equal opportunity.  
+✅ **No Starvation** – Every process gets CPU time, avoiding the starvation issue seen in priority scheduling.  
+✅ **Best for Time-Sharing Systems** – Ensures responsive multitasking.
+
+### **Disadvantages of Round Robin:**
+❌ **Higher Context Switching Overhead** – More frequent switching between processes increases CPU overhead.  
+❌ **Performance Depends on Time Quantum**  
+   - If the quantum is **too small**, too many context switches reduce efficiency.  
+   - If the quantum is **too large**, it behaves like FCFS (First-Come, First-Served).
+
+### **Example of Round Robin Scheduling (Time Quantum = 3ms)**  
+| Process | Arrival Time | Burst Time | Execution Order (Time Quantum = 3ms) |
+|---------|-------------|-----------|--------------------------------------|
+| P1      | 0ms         | 5ms       | P1 (3) → P2 (3) → P3 (3) → P1 (2) → P3 (2) |
+
+
+
+### **What is FCFS Scheduling?**  
+First Come, First Serve (FCFS) is the **simplest** CPU scheduling algorithm, where the process that arrives **first** gets executed **first**. It follows the **FIFO (First In, First Out)** principle.  
+
+### **How FCFS Works:**
+1. The **processes are scheduled in order of their arrival time**.  
+2. Once a process starts execution, **it cannot be preempted** (Non-Preemptive).  
+3. The CPU is assigned to the next process **only after the current process finishes**.  
+
+### **Example of FCFS Scheduling**  
+
+| Process | Arrival Time | Burst Time | Execution Order |
+|---------|-------------|-----------|----------------|
+| P1      | 0ms         | 4ms       | P1 (0-4)      |
+| P2      | 1ms         | 3ms       | P2 (4-7)      |
+| P3      | 2ms         | 2ms       | P3 (7-9)      |
+
+**Gantt Chart Representation:**  
+```
+| P1 | P2 | P3 |
+0    4    7    9
+```
+- **Waiting Time (WT)**: Time a process waits before execution.  
+- **Turnaround Time (TAT)**: Total time from arrival to completion.  
+### **Advantages of FCFS Scheduling**  
+✅ **Easy to implement** and simple to understand.  
+✅ **Fair** – Every process gets a chance in the order they arrive.  
+
+### **Disadvantages of FCFS Scheduling**  
+❌ **Not optimal for time-sharing systems** (since it is non-preemptive).  
+❌ **Convoy Effect** – If a long process arrives first, all shorter processes must wait.  
+
