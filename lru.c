@@ -1,83 +1,68 @@
 #include <stdio.h>
-#include <stdlib.h>
 
-#define MAX_REF 100
-#define MAX_FRAME 10
+int main() {
+    int pages[50], frames[50], usage[50];
+    int n, f, i, j, lru_index, found;
+    int time = 0, page_fault = 0;
 
-int ref[MAX_REF], count, n;
-
-void input() {
-    count = 0;
-    printf("Enter the number of page frames: ");
+    printf("Enter the number of pages: ");
     scanf("%d", &n);
-    
-    printf("Enter the reference string (-1 to stop): ");
-    while (1) {
-        int temp;
-        scanf("%d", &temp);
-        if (temp == -1) break;
-        ref[count++] = temp;
+
+    printf("Enter the page numbers:\n");
+    for (i = 0; i < n; i++) {
+        scanf("%d", &pages[i]);
     }
-}
 
-void LRU() {
-    int stack[MAX_FRAME], top = 0, fault = 0;
+    printf("Enter the number of frames: ");
+    scanf("%d", &f);
 
-    for (int i = 0; i < count; i++) {
-        int found = 0;
-        
-        // Check if the page is already in memory
-        for (int j = 0; j < top; j++) {
-            if (stack[j] == ref[i]) {
+    // Initialize frames and usage
+    for (i = 0; i < f; i++) {
+        frames[i] = -1;
+        usage[i] = -1;
+    }
+
+    printf("\nPage\tFrames\n");
+
+    for (i = 0; i < n; i++) {
+        found = 0;
+
+        // Check if the page is already in the frame
+        for (j = 0; j < f; j++) {
+            if (frames[j] == pages[i]) {
                 found = 1;
-                // Move recently used page to the most recent position
-                int temp = stack[j];
-                for (int k = j; k < top - 1; k++) {
-                    stack[k] = stack[k + 1];
-                }
-                stack[top - 1] = temp;
+                usage[j] = time++;  // Update usage time
                 break;
             }
         }
-        
-        // If page not found, page fault occurs
+
+        // If page is not found, insert it
         if (!found) {
-            if (top < n) {
-                stack[top++] = ref[i]; // Insert if space is available
-            } else {
-                // Shift left to remove the LRU page and insert new one
-                for (int k = 0; k < n - 1; k++) {
-                    stack[k] = stack[k + 1];
+            // Find LRU index (least recently used)
+            lru_index = 0;
+            for (j = 1; j < f; j++) {
+                if (usage[j] < usage[lru_index]) {
+                    lru_index = j;
                 }
-                stack[n - 1] = ref[i];
             }
-            fault++;
-        }
 
-        // Display current frame state
-        printf("\nAfter inserting %d, frames: ", ref[i]);
-        for (int j = 0; j < top; j++) {
-            printf("%d ", stack[j]);
-        }
-    }
-    printf("\n\nTotal page faults: %d\n", fault);
-}
+            frames[lru_index] = pages[i];
+            usage[lru_index] = time++;
+            page_fault++;
 
-int main() {
-    while (1) {
-        int choice;
-        printf("\n\n----- MENU -----");
-        printf("\n1. Input Reference String");
-        printf("\n2. Execute LRU Algorithm");
-        printf("\n0. Exit");
-        printf("\nEnter choice: ");
-        scanf("%d", &choice);
-
-        switch (choice) {
-            case 1: input(); break;
-            case 2: LRU(); break;
-            case 0: return 0;
-            default: printf("\nInvalid choice. Try again.");
+            printf("%d\t", pages[i]);
+            for (j = 0; j < f; j++) {
+                if (frames[j] != -1)
+                    printf("%d ", frames[j]);
+                else
+                    printf("_ ");
+            }
+            printf("\n");
+        } else {
+            printf("%d\tHit\n", pages[i]);
         }
     }
+
+    printf("\nTotal Page Faults: %d\n", page_fault);
+    return 0;
 }
