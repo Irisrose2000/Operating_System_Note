@@ -80,23 +80,27 @@ void cal() {
     }
 
     // Start Safe Sequence Calculation
-     while(flag) {
+     while(c1 < n) {
         flag = 0;
-        for(i = 0; i < n; i++) {
-            int c = 0;
-            for(j = 0; j < r; j++) {
-                if((finish[i] == 0) && (need[i][j] <= avail[j])) {
-                    c++;
+         for(i = 0; i < n; i++) {
+            if(finish[i] == 0) {
+                int c = 0;
+                for(j = 0; j < r; j++) {
+                    if(need[i][j] <= avail[j]) {
+                        c++;
+                    }
                 }
+
                 if(c == r) {
                     for(k = 0; k < r; k++) {
-                        avail[k] += alloc[i][j];
+                        avail[k] += alloc[i][k];
                     }
+                    safe[c1++] = i;
                     finish[i] = 1;
                     flag = 1;
                     printf("P%d->", i);
-                    if(finish[i] == 1) {
-                        i = n;
+                    if(flag =0) {
+                        break;;
                     }
                 }
             }
