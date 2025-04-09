@@ -1,7 +1,7 @@
 #include<stdio.h>
 int main()
 {
-    int n ,i,j,temp;
+    int n ,i;
     int bt[20],wt[20],tat[20];
     int total_wt =0 ,total_tat=0;
     printf("enter the number of process :");
